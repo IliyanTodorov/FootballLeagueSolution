@@ -1,10 +1,12 @@
 ﻿namespace FootballLeague.API.Internal
 {
+    using FootballLeague.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.OpenApi.Models;
     
     internal static class ServiceCollectionExtensions
@@ -27,6 +29,9 @@
             });
 
             services.AddHealthChecks();
+
+            services.AddDbContext<FootballLeagueDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             return services;
         }
