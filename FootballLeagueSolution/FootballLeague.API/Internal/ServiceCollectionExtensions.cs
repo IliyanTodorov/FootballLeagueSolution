@@ -1,6 +1,5 @@
 ﻿namespace FootballLeague.API.Internal
 {
-    using FootballLeague.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -8,7 +7,15 @@
     using Microsoft.Extensions.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.OpenApi.Models;
-    
+
+    using FootballLeague.Data;
+    using FootballLeague.Data.Repositories;
+    using FootballLeague.Data.Common.Repositories;
+    using FootballLeague.Services;
+    using FootballLeague.Services.Interfaces;
+    using FootballLeague.Services.Mapping;
+    using FootballLeague.Data.Models;
+
     internal static class ServiceCollectionExtensions
     {
         internal static IServiceCollection ConfigureApplicationServices(
@@ -30,8 +37,17 @@
 
             services.AddHealthChecks();
 
+            AutoMapperConfig.RegisterMappings(typeof(Team).Assembly);
+
+            services.AddSingleton(AutoMapperConfig.MapperInstance);
+
             services.AddDbContext<FootballLeagueDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
+            services.AddTransient<ITeamService, TeamService>();
 
             return services;
         }

@@ -33,12 +33,12 @@
             }
         }
 
-        // Generates a JSON response with a generic error message
+        // Generates a JSON response with a error message
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            var result = JsonSerializer.Serialize(new { error = "An unexpected error occurred. Please try again later." });
+            var result = JsonSerializer.Serialize(new { error = exception.Message });
             return context.Response.WriteAsync(result);
         }
     }

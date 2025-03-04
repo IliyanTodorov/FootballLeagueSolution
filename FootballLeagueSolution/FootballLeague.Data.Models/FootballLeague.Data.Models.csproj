@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FootballLeague.Data.Common\FootballLeague.Data.Common.csproj" />
+    <ProjectReference Include="..\FootballLeague.Services.Mapping\FootballLeague.Services.Mapping.csproj" />
   </ItemGroup>
 
 </Project>
