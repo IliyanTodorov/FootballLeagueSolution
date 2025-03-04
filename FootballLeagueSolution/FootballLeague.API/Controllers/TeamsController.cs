@@ -3,8 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    
-    using FootballLeague.Data.Models;
+
     using FootballLeague.Data.Models.DTOs;
     using FootballLeague.Services.Interfaces;
 
@@ -20,14 +19,14 @@
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Team>>> GetTeams()
+        public async Task<ActionResult<IEnumerable<TeamResponseDto>>> GetTeams()
         {
             var teams = await _teamService.GetAllTeamsAsync();
             return Ok(teams);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Team>> GetTeam(int id)
+        public async Task<ActionResult<TeamResponseDto>> GetTeamById(int id)
         {
             var team = await _teamService.GetTeamByIdAsync(id);
             if (team == null)
@@ -36,11 +35,33 @@
             return Ok(team);
         }
 
+        [HttpGet("{id}/stats")]
+        public async Task<ActionResult<TeamStatsDto>> GetTeamStats(int id)
+        {
+            var stats = await _teamService.GetTeamStatsAsync(id);
+            if (stats == null)
+            {
+                return NotFound();
+            }
+            return Ok(stats);
+        }
+
+        [HttpGet("rankings")]
+        public async Task<ActionResult<IEnumerable<TeamStatsDto>>> GetRankings()
+        {
+            var rankings = await _teamService.GetTeamRankingsAsync();
+            if (rankings == null)
+            {
+                return NotFound();
+            }
+            return Ok(rankings);
+        }
+
         [HttpPost]
-        public async Task<ActionResult<Team>> CreateTeam(CreateTeamDto team)
+        public async Task<ActionResult<TeamResponseDto>> CreateTeam(CreateTeamDto team)
         {
             var createdTeam = await _teamService.CreateTeamAsync(team);
-            return CreatedAtAction(nameof(GetTeam), new { id = createdTeam.Id }, createdTeam);
+            return CreatedAtAction(nameof(GetTeamById), new { id = createdTeam.Id }, createdTeam);
         }
 
         [HttpPut("{id}")]

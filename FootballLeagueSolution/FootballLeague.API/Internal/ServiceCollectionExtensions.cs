@@ -47,7 +47,8 @@
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
-            services.AddTransient<ITeamService, TeamService>();
+            services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<IMatchService, MatchService>();
 
             return services;
         }

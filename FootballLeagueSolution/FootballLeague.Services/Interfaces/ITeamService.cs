@@ -7,9 +7,11 @@
 
     public interface ITeamService
     {
-        Task<IEnumerable<Team>> GetAllTeamsAsync();
-        Task<Team> GetTeamByIdAsync(int id);
-        Task<Team> CreateTeamAsync(CreateTeamDto team);
+        Task<IEnumerable<TeamListDto>> GetAllTeamsAsync();
+        Task<TeamResponseDto> GetTeamByIdAsync(int id);
+        Task<TeamStatsDto> GetTeamStatsAsync(int id);
+        Task<IEnumerable<TeamStatsDto>> GetTeamRankingsAsync();
+        Task<TeamResponseDto> CreateTeamAsync(CreateTeamDto team);
         Task<bool> UpdateTeamAsync(int id, UpdateTeamDto team);
         Task<bool> DeleteTeamAsync(int id);
     }

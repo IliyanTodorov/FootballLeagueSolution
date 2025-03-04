@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FootballLeague.Domain\FootballLeague.Domain.csproj" />
+    <ProjectReference Include="..\FootballLeague.Data.Models\FootballLeague.Data.Models.csproj" />
   </ItemGroup>
 
 </Project>
